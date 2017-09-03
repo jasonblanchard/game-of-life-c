@@ -3,7 +3,7 @@ CFLAGS=-Wall
 
 SOURCE_DIR = src
 BUILD_DIR = bin
-TARGET = $(BUILD_DIR)/program
+TARGET = $(BUILD_DIR)/life
 SOURCES := $(wildcard $(SOURCE_DIR)/*.c)
 HEADERS := $(wildcard $(SOURCE_DIR)/*.h)
 OBJECTS := $(patsubst $(SOURCE_DIR)/%.c, $(BUILD_DIR)/%.o, $(SOURCES))
