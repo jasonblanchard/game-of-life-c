@@ -28,10 +28,10 @@ int main(int argc, char *argv[]) {
     int height = 0;
     parseSeedCsvRows(seedFileName, &node, &height);
     printf("%i\n", height);
-    // printf("%s\n", node.next->row);
 
     CsvParserNode *tmpNode = &node;
-    while(tmpNode->next != NULL) {
+    // while(tmpNode->next != NULL) {
+    for(int i = 0; i < height; i++) {
       printf("%s", tmpNode->row);
       tmpNode = tmpNode->next;
     }
