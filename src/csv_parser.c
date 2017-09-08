@@ -4,7 +4,7 @@
 
 #include "csv_parser.h"
 
-CsvParserNode * create_node() {
+CsvParserNode* createNode() {
   CsvParserNode *p = (CsvParserNode*)malloc(sizeof(CsvParserNode));
   if (p != NULL) {
     p->next = NULL;
@@ -12,7 +12,20 @@ CsvParserNode * create_node() {
   return p;
 }
 
-void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height) {
+int countDelimitedValues(char *string, const char delimiter) {
+  int count = 1;
+
+  while(*string) {
+    if (*string == delimiter) {
+      count++;
+    }
+    string++;
+  }
+
+  return count;
+}
+
+void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height, int *width) {
   FILE *in = fopen(fileName, "r");
   char *buffer = NULL;
   size_t size = 0;
@@ -21,10 +34,12 @@ void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height) {
 
   while((getline(&buffer, &size, in)) != -1) {
     if (*height == 0) {
+      // TODO: Set width based on the number of values in the buffer split on `,`
+      *width = countDelimitedValues(buffer, ',');
       nodeBuffer->row = malloc(strlen(buffer) + 1);
       strcpy(nodeBuffer->row, buffer);
     } else {
-      CsvParserNode *tmpNode = create_node();
+      CsvParserNode *tmpNode = createNode();
       tmpNode->row = malloc(strlen(buffer) + 1);
       strcpy(tmpNode->row, buffer);
       nodeBuffer->next = tmpNode;
@@ -34,4 +49,21 @@ void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height) {
   }
 
   fclose(in);
+}
+
+void populateMatrixFromNode(CsvParserNode *node, int width, int height, int matrix[][height]) {
+  int i;
+  int j;
+  char *token, *str, *tofree;
+  CsvParserNode *tmpNode = node;
+
+  for (i = 0; i < height; i++) {
+    tofree = str = strdup(tmpNode->row);
+
+    for (j = 0; j < width; j++) {
+      token = strsep(&str, ",");
+      matrix[i][j] = atoi(token);
+    }
+    tmpNode = tmpNode->next;
+  }
 }

@@ -23,21 +23,18 @@ int main(int argc, char *argv[]) {
   }
 
   if (seedFileName) {
-    // function that populates a linked list of all the lines and figures out the width and height of the board
     CsvParserNode node;
     int height = 0;
-    parseSeedCsvRows(seedFileName, &node, &height);
-    printf("%i\n", height);
+    int width = 0;
 
-    CsvParserNode *tmpNode = &node;
-    // while(tmpNode->next != NULL) {
-    for(int i = 0; i < height; i++) {
-      printf("%s", tmpNode->row);
-      tmpNode = tmpNode->next;
-    }
+    parseSeedCsvRows(seedFileName, &node, &height, &width);
 
-    // function that constructs the multidimensional array from the linked list
+    int board[width][height];
+    populateMatrixFromNode(&node, width, height, board);
 
+    cli_render(width, height, board);
+
+    // TODO: Cleanup
   }
 
   argc -= optind;
