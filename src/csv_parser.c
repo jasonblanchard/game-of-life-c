@@ -34,7 +34,6 @@ void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height, int *wid
 
   while((getline(&buffer, &size, in)) != -1) {
     if (*height == 0) {
-      // TODO: Set width based on the number of values in the buffer split on `,`
       *width = countDelimitedValues(buffer, ',');
       nodeBuffer->row = malloc(strlen(buffer) + 1);
       strcpy(nodeBuffer->row, buffer);
@@ -54,11 +53,11 @@ void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height, int *wid
 void populateMatrixFromNode(CsvParserNode *node, int width, int height, int matrix[][height]) {
   int i;
   int j;
-  char *token, *str, *tofree;
+  char *token, *str;
   CsvParserNode *tmpNode = node;
 
   for (i = 0; i < height; i++) {
-    tofree = str = strdup(tmpNode->row);
+    str = tmpNode->row;
 
     for (j = 0; j < width; j++) {
       token = strsep(&str, ",");
@@ -66,4 +65,6 @@ void populateMatrixFromNode(CsvParserNode *node, int width, int height, int matr
     }
     tmpNode = tmpNode->next;
   }
+
+  // TODO: Cleanup strings and nodes?
 }

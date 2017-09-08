@@ -29,26 +29,31 @@ int main(int argc, char *argv[]) {
 
     parseSeedCsvRows(seedFileName, &node, &height, &width);
 
+    // TODO: Not working with non-square boards
+    if (height != width) {
+      fprintf(stderr, "%s\n", "Error: Only works with square game boards ¯_(ツ)_/¯");
+      return 1;
+    }
+
     int board[width][height];
     populateMatrixFromNode(&node, width, height, board);
 
     cli_render(width, height, board);
-
-    // TODO: Cleanup
   }
 
   argc -= optind;
   argv -= optind;
 
+  // TODO: Populate a randmized board
   // int board[6][6] = {
-  //   {0, 0, 0, 1, 0, 0},
-  //   {0, 0, 0, 2, 0, 0},
-  //   {0, 0, 0, 3, 0, 0},
-  //   {0, 0, 0, 4, 0, 0},
-  //   {0, 0, 0, 5, 0, 0},
-  //   {0, 0, 0, 6, 0, 0}
+  //   {0, 0, 0, 1, 0, 0 },
+  //   {0, 0, 0, 2, 0, 0 },
+  //   {0, 0, 0, 3, 0, 0 },
+  //   {0, 0, 0, 4, 0, 0 },
+  //   {0, 0, 0, 5, 0, 0 },
+  //   {0, 0, 0, 6, 0, 0 }
   // };
-
+  //
   // cli_render(6, 6, board);
   printf("\n");
   printf("\n");
