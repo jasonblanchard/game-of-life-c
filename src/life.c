@@ -4,6 +4,7 @@
 
 #include "cli_renderer.h"
 #include "csv_parser.h"
+#include "ticker.h"
 
 int main(int argc, char *argv[]) {
   printf("\n");
@@ -38,6 +39,9 @@ int main(int argc, char *argv[]) {
     int board[width][height];
     populateMatrixFromNode(&node, width, height, board);
 
+    cli_render(width, height, board);
+    tick(width, height, board);
+    printf("\nNext generation: \n");
     cli_render(width, height, board);
   }
 

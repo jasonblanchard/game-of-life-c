@@ -5,7 +5,7 @@ void cli_render(int width, int height, int board[][height]) {
   int y;
 
   for (x = 0; x < width; x++) {
-    printf("\n");
+    if (x > 0) printf("\n");
     for (y = 0; y < height; y++) {
       printf(" %i ", board[x][y]);
     }
