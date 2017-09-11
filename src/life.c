@@ -12,11 +12,15 @@ int main(int argc, char *argv[]) {
 
   char flag;
   char *seedFileName;
+  int rate = 1000 * 1000;
 
-  while((flag = getopt(argc, argv, "s:")) != EOF) {
+  while((flag = getopt(argc, argv, "s:r:")) != EOF) {
     switch(flag) {
       case 's':
         seedFileName = optarg;
+        break;
+      case 'r':
+        rate = atof(optarg) * 1000;
         break;
       default:
         fprintf(stderr, "%s\n", "That's not a valid argument");
@@ -39,10 +43,12 @@ int main(int argc, char *argv[]) {
     int board[width][height];
     populateMatrixFromNode(&node, width, height, board);
 
-    cli_render(width, height, board);
-    tick(width, height, board);
-    printf("\nNext generation: \n");
-    cli_render(width, height, board);
+    while (1) {
+      cli_render(width, height, board);
+      tick(width, height, board);
+      printf("\nNext generation: \n");
+      usleep(rate);
+    }
   }
 
   argc -= optind;
