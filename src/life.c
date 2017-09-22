@@ -8,13 +8,13 @@
 
 int main(int argc, char *argv[]) {
   printf("\n");
-  printf("working\n");
 
   char flag;
   char *seedFileName;
   int rate = 1000 * 1000;
+  int shouldClear = 0;
 
-  while((flag = getopt(argc, argv, "s:r:")) != EOF) {
+  while((flag = getopt(argc, argv, "s:r:c")) != EOF) {
     switch(flag) {
       case 's':
         seedFileName = optarg;
@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
       case 'r':
         rate = atof(optarg) * 1000;
         break;
+      case 'c':
+        shouldClear = 1;
       default:
         fprintf(stderr, "%s\n", "That's not a valid argument");
     }
@@ -44,15 +46,18 @@ int main(int argc, char *argv[]) {
     populateMatrixFromNode(&node, width, height, board);
 
     while (1) {
+      shouldClear ? system("clear") : printf("\n");
       cli_render(width, height, board);
       tick(width, height, board);
-      printf("\nNext generation: \n");
+      printf("\n");
       usleep(rate);
     }
   }
 
   argc -= optind;
   argv -= optind;
+
+  // TODO: Stats: # generations, # alive, # dead, oldest cell
 
   // TODO: Populate a randmized board
   // int board[6][6] = {
