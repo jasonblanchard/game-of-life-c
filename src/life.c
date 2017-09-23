@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     while (1) {
       if (max_generation && generation >= max_generation + 1) break;
       should_clear ? system("clear") : printf("\n");
-      cli_render(width, height, board);
+      cli_render_board(width, height, board);
       if (show_stats) {
         printf("\n");
         printf("\n");

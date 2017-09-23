@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void cli_render(int width, int height, int board[][height]) {
+void cli_render_board(int width, int height, int board[][height]) {
   int x;
   int y;
 

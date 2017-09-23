@@ -12,7 +12,7 @@ CsvParserNode* create_node() {
   return p;
 }
 
-int countDelimitedValues(char *string, const char delimiter) {
+int count_delimited_values(char *string, const char delimiter) {
   int count = 1;
 
   while(*string) {
@@ -34,7 +34,7 @@ void parse_seed_csv_rows(char *fileName, CsvParserNode *node, int *height, int *
 
   while((getline(&buffer, &size, in)) != -1) {
     if (*height == 0) {
-      *width = countDelimitedValues(buffer, ',');
+      *width = count_delimited_values(buffer, ',');
       nodeBuffer->row = malloc(strlen(buffer) + 1);
       strcpy(nodeBuffer->row, buffer);
     } else {
@@ -51,7 +51,7 @@ void parse_seed_csv_rows(char *fileName, CsvParserNode *node, int *height, int *
   fclose(in);
 }
 
-void freeList(CsvParserNode *head) {
+void free_list(CsvParserNode *head) {
   CsvParserNode *tmp;
 
   while(head != NULL) {
@@ -78,5 +78,5 @@ void populate_matrix_from_node(CsvParserNode *node, int width, int height, int m
     tmpNode = tmpNode->next;
   }
 
-  freeList(node);
+  free_list(node);
 }
