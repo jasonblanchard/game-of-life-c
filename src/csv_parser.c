@@ -47,7 +47,19 @@ void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height, int *wid
     *height += 1;
   }
 
+  free(buffer);
   fclose(in);
+}
+
+void freeList(CsvParserNode *head) {
+  CsvParserNode *tmp;
+
+  while(head != NULL) {
+    tmp = head;
+    head = head -> next;
+    free(tmp->row);
+    free(tmp);
+  }
 }
 
 void populateMatrixFromNode(CsvParserNode *node, int width, int height, int matrix[][height]) {
@@ -66,5 +78,6 @@ void populateMatrixFromNode(CsvParserNode *node, int width, int height, int matr
     tmpNode = tmpNode->next;
   }
 
-  // TODO: Cleanup strings and nodes?
+  // TODO: Cleanup strings and nodes
+  freeList(node);
 }

@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
   }
 
   if (seedFileName) {
+    // TODO: Move these outside this block scope so that we can generalize the generation logic.
     CsvParserNode node;
     int height = 0;
     int width = 0;
@@ -73,8 +74,6 @@ int main(int argc, char *argv[]) {
 
   argc -= optind;
   argv -= optind;
-
-  // TODO: Stats: # generations, # alive, # dead, oldest cell
 
   // TODO: Populate a randmized board
   // int board[6][6] = {
