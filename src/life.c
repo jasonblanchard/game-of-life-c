@@ -45,12 +45,6 @@ int main(int argc, char *argv[]) {
   if (seed_file_name) {
     node = create_node();
     parse_seed_csv_rows(seed_file_name, node, &height, &width);
-
-    // TODO: Not working with non-square boards
-    if (height != width) {
-      fprintf(stderr, "%s\n", "Error: Only works with square game boards ¯_(ツ)_/¯");
-      return 1;
-    }
   }
 
   int board[height][width];
