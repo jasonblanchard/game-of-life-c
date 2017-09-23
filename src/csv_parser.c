@@ -62,7 +62,7 @@ void free_list(CsvParserNode *head) {
   }
 }
 
-void populate_matrix_from_node(CsvParserNode *node, int width, int height, int matrix[][height]) {
+void populate_matrix_from_node(CsvParserNode *node, int width, int height, int matrix[][width]) {
   int i;
   int j;
   char *token, *str;

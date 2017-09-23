@@ -16,6 +16,9 @@ int main(int argc, char *argv[]) {
   int generation = 0;
   int show_stats = 0;
   int max_generation = 0;
+  int height = 0;
+  int width = 0;
+  CsvParserNode *node;
 
   while((flag = getopt(argc, argv, "f:r:csm:")) != EOF) {
     switch(flag) {
@@ -40,11 +43,7 @@ int main(int argc, char *argv[]) {
   }
 
   if (seed_file_name) {
-    // TODO: Move these outside this block scope so that we can generalize the generation logic.
-    CsvParserNode *node = create_node();
-    int height = 0;
-    int width = 0;
-
+    node = create_node();
     parse_seed_csv_rows(seed_file_name, node, &height, &width);
 
     // TODO: Not working with non-square boards
@@ -52,24 +51,25 @@ int main(int argc, char *argv[]) {
       fprintf(stderr, "%s\n", "Error: Only works with square game boards ¯_(ツ)_/¯");
       return 1;
     }
+  }
 
-    int board[width][height];
-    populate_matrix_from_node(node, width, height, board);
+  int board[height][width];
 
-    while (1) {
-      if (max_generation && generation >= max_generation + 1) break;
-      should_clear ? system("clear") : printf("\n");
-      cli_render_board(width, height, board);
-      if (show_stats) {
-        printf("\n");
-        printf("\n");
-        cli_render_stats(generation, width, height, board);
-      }
-      tick(width, height, board);
+  if (seed_file_name) populate_matrix_from_node(node, height, width, board);
+
+  while (1) {
+    if (max_generation && generation >= max_generation + 1) break;
+    should_clear ? system("clear") : printf("\n");
+    cli_render_board(height, width, board);
+    if (show_stats) {
       printf("\n");
-      generation++;
-      usleep(rate);
+      printf("\n");
+      cli_render_stats(generation, height, width, board);
     }
+    tick(height, width, board);
+    printf("\n");
+    generation++;
+    usleep(rate);
   }
 
   argc -= optind;
