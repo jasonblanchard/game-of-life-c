@@ -25,30 +25,37 @@ int count_delimited_values(char *string, const char delimiter) {
   return count;
 }
 
-void parse_seed_csv_rows(char *fileName, CsvParserNode *node, int *height, int *width) {
-  FILE *in = fopen(fileName, "r");
-  char *buffer = NULL;
-  size_t size = 0;
-  CsvParserNode *nodeBuffer = node;
+CsvParserNode * parse_seed_csv_rows(char *fileName, int *height, int *width) {
   *height = 0;
+  char *string_buffer = NULL;
+  CsvParserNode *head = create_node();
+  CsvParserNode *node_buffer = head;
+  FILE *file_pointer = fopen(fileName, "r");
+  size_t buffer_length = 0;
 
-  while((getline(&buffer, &size, in)) != -1) {
+  if (file_pointer == NULL) {
+    fprintf(stderr, "Cannot open file\n");
+    exit(1);
+  }
+
+  while((getline(&string_buffer, &buffer_length, file_pointer)) != -1) {
     if (*height == 0) {
-      *width = count_delimited_values(buffer, ',');
-      nodeBuffer->row = malloc(strlen(buffer) + 1);
-      strcpy(nodeBuffer->row, buffer);
+      *width = count_delimited_values(string_buffer, ',');
+      node_buffer->row = malloc(strlen(string_buffer) + 1);
+      strcpy(node_buffer->row, string_buffer);
     } else {
-      CsvParserNode *tmpNode = create_node();
-      tmpNode->row = malloc(strlen(buffer) + 1);
-      strcpy(tmpNode->row, buffer);
-      nodeBuffer->next = tmpNode;
-      nodeBuffer = tmpNode;
+      CsvParserNode *tmp_node = create_node();
+      tmp_node->row = malloc(strlen(string_buffer) + 1);
+      strcpy(tmp_node->row, string_buffer);
+      node_buffer->next = tmp_node;
+      node_buffer = tmp_node;
     }
     *height += 1;
   }
 
-  free(buffer);
-  fclose(in);
+  free(string_buffer);
+  fclose(file_pointer);
+  return head;
 }
 
 void free_list(CsvParserNode *head) {
@@ -62,21 +69,21 @@ void free_list(CsvParserNode *head) {
   }
 }
 
-void populate_matrix_from_node(CsvParserNode *node, int height, int width, int matrix[][width]) {
+void populate_matrix_from_node(CsvParserNode *head, int height, int width, int matrix[][width]) {
   int i;
   int j;
   char *token, *str;
-  CsvParserNode *tmpNode = node;
+  CsvParserNode *tmp_node = head;
 
   for (i = 0; i < height; i++) {
-    str = tmpNode->row;
+    str = tmp_node->row;
 
     for (j = 0; j < width; j++) {
       token = strsep(&str, ",");
       matrix[i][j] = atoi(token);
     }
-    tmpNode = tmpNode->next;
+    tmp_node = tmp_node->next;
   }
 
-  free_list(node);
+  free_list(head);
 }

@@ -10,17 +10,17 @@
 int main(int argc, char *argv[]) {
   printf("\n");
 
-  char flag;
   char *seed_file_name;
+  char flag;
+  CsvParserNode *csv_node_head;
+  int generation = 0;
+  int graphicsMode = 0;
+  int height = 0;
+  int max_generation = 0;
   int rate = 1000 * 1000;
   int should_clear = 0;
-  int generation = 0;
   int show_stats = 0;
-  int max_generation = 0;
-  int height = 0;
   int width = 0;
-  int graphicsMode = 0;
-  CsvParserNode *node;
 
   while((flag = getopt(argc, argv, "f:r:csm:h:w:g")) != EOF) {
     switch(flag) {
@@ -52,16 +52,11 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  if (seed_file_name) {
-    node = create_node();
-    height = 0;
-    width = 0;
-    parse_seed_csv_rows(seed_file_name, node, &height, &width);
-  }
+  if (seed_file_name) csv_node_head = parse_seed_csv_rows(seed_file_name, &height, &width);
 
   int board[height][width];
 
-  seed_file_name ? populate_matrix_from_node(node, height, width, board) : randomize(height, width, board);
+  seed_file_name ? populate_matrix_from_node(csv_node_head, height, width, board) : randomize(height, width, board);
 
   while (1) {
     if (max_generation && generation >= max_generation + 1) break;
