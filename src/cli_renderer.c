@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void cliRender(int width, int height, int board[][height]) {
+void cli_render(int width, int height, int board[][height]) {
   int x;
   int y;
 
@@ -12,7 +12,7 @@ void cliRender(int width, int height, int board[][height]) {
   }
 }
 
-void cliRenderStats(int numGeneration, int width, int height, int board[][height]) {
+void cli_render_stats(int numGeneration, int width, int height, int board[][height]) {
   int x;
   int y;
   int numAlive = 0;

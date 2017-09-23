@@ -10,42 +10,42 @@ int main(int argc, char *argv[]) {
   printf("\n");
 
   char flag;
-  char *seedFileName;
+  char *seed_file_name;
   int rate = 1000 * 1000;
-  int shouldClear = 0;
+  int should_clear = 0;
   int generation = 0;
-  int showStats = 0;
-  int maxGeneration = 0;
+  int show_stats = 0;
+  int max_generation = 0;
 
   while((flag = getopt(argc, argv, "f:r:csm:")) != EOF) {
     switch(flag) {
       case 'f':
-        seedFileName = optarg;
+        seed_file_name = optarg;
         break;
       case 'r':
         rate = atof(optarg) * 1000;
         break;
       case 'c':
-        shouldClear = 1;
+        should_clear = 1;
         break;
       case 's':
-        showStats = 1;
+        show_stats = 1;
         break;
       case 'm':
-        maxGeneration = atoi(optarg);
+        max_generation = atoi(optarg);
         break;
       default:
         fprintf(stderr, "%s\n", "That's not a valid argument");
     }
   }
 
-  if (seedFileName) {
+  if (seed_file_name) {
     // TODO: Move these outside this block scope so that we can generalize the generation logic.
-    CsvParserNode *node = createNode();
+    CsvParserNode *node = create_node();
     int height = 0;
     int width = 0;
 
-    parseSeedCsvRows(seedFileName, node, &height, &width);
+    parse_seed_csv_rows(seed_file_name, node, &height, &width);
 
     // TODO: Not working with non-square boards
     if (height != width) {
@@ -54,16 +54,16 @@ int main(int argc, char *argv[]) {
     }
 
     int board[width][height];
-    populateMatrixFromNode(node, width, height, board);
+    populate_matrix_from_node(node, width, height, board);
 
     while (1) {
-      if (maxGeneration && generation >= maxGeneration + 1) break;
-      shouldClear ? system("clear") : printf("\n");
-      cliRender(width, height, board);
-      if (showStats) {
+      if (max_generation && generation >= max_generation + 1) break;
+      should_clear ? system("clear") : printf("\n");
+      cli_render(width, height, board);
+      if (show_stats) {
         printf("\n");
         printf("\n");
-        cliRenderStats(generation, width, height, board);
+        cli_render_stats(generation, width, height, board);
       }
       tick(width, height, board);
       printf("\n");

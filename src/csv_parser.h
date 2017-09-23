@@ -3,8 +3,8 @@ typedef struct CsvParserNode {
   struct CsvParserNode *next;
 } CsvParserNode;
 
-void parseSeedCsvRows(char *fileName, CsvParserNode *node, int *height, int *width);
+void parse_seed_csv_rows(char *fileName, CsvParserNode *node, int *height, int *width);
 
-void populateMatrixFromNode(CsvParserNode *node, int width, int height, int matrix[][height]);
+void populate_matrix_from_node(CsvParserNode *node, int width, int height, int matrix[][height]);
 
-CsvParserNode* createNode();
+CsvParserNode* create_node();

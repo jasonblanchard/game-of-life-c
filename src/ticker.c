@@ -1,6 +1,6 @@
 #include "ticker.h"
 
-int calculateResult(numNeighbors, currentValue) {
+int calculate_result(numNeighbors, currentValue) {
   // 4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
   if (currentValue == 0 && numNeighbors == 3) {
     return 1;
@@ -21,7 +21,7 @@ int calculateResult(numNeighbors, currentValue) {
   return currentValue;
 }
 
-int calculateNumNeighbors(int i, int j, int height, int width, int board[][width]) {
+int calculate_num_neighbors(int i, int j, int height, int width, int board[][width]) {
   int numNeighbors = 0;
 
   if (i > 0) {
@@ -52,8 +52,8 @@ void tick(int height, int width, int board[][width]) {
 
   for (i = 0; i < height; i++) {
     for (j = 0; j < width; j++) {
-      numNeighbors = calculateNumNeighbors(i, j, height, width, board);
-      buffer[i][j] = calculateResult(numNeighbors, board[i][j]);
+      numNeighbors = calculate_num_neighbors(i, j, height, width, board);
+      buffer[i][j] = calculate_result(numNeighbors, board[i][j]);
     }
   }
 
