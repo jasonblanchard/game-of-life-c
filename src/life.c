@@ -15,8 +15,9 @@ int main(int argc, char *argv[]) {
   int shouldClear = 0;
   int generation = 0;
   int showStats = 0;
+  int maxGeneration = 0;
 
-  while((flag = getopt(argc, argv, "f:r:cs")) != EOF) {
+  while((flag = getopt(argc, argv, "f:r:csm:")) != EOF) {
     switch(flag) {
       case 'f':
         seedFileName = optarg;
@@ -29,6 +30,9 @@ int main(int argc, char *argv[]) {
         break;
       case 's':
         showStats = 1;
+        break;
+      case 'm':
+        maxGeneration = atoi(optarg);
         break;
       default:
         fprintf(stderr, "%s\n", "That's not a valid argument");
@@ -52,6 +56,7 @@ int main(int argc, char *argv[]) {
     populateMatrixFromNode(&node, width, height, board);
 
     while (1) {
+      if (maxGeneration && generation >= maxGeneration + 1) break;
       shouldClear ? system("clear") : printf("\n");
       cliRender(width, height, board);
       if (showStats) {

@@ -30,12 +30,12 @@ int calculateNumNeighbors(int i, int j, int height, int width, int board[][width
     if (j < width && board[i - 1][j + 1] > 0) numNeighbors++;
   }
 
-  if (j < width) {
+  if (j < width - 1) {
     if (board[i][j + 1] > 0) numNeighbors++;
     if (j > 0 && board[i][j - 1]) numNeighbors++;
   }
 
-  if (i + 1 < height) {
+  if (i + 1 < height - 1) {
     if (j > 0 && board[i + 1][j - 1]) numNeighbors++;
     if (board[i + 1][j]) numNeighbors++;
     if (j < width && board[i + 1][j + 1]) numNeighbors++;
