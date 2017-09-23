@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
 
   int board[height][width];
 
-  seed_file_name ? populate_matrix_from_node(csv_node_head, height, width, board) : randomize(height, width, board);
+  seed_file_name ? populate_board_from_node(csv_node_head, height, width, board) : randomize(height, width, board);
 
   while (1) {
     if (max_generation && generation >= max_generation + 1) break;
