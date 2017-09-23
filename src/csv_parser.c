@@ -39,17 +39,14 @@ CsvParserNode * parse_seed_csv_rows(char *fileName, int *height, int *width) {
   }
 
   while((getline(&string_buffer, &buffer_length, file_pointer)) != -1) {
-    if (*height == 0) {
-      *width = count_delimited_values(string_buffer, ',');
-      node_buffer->row = malloc(strlen(string_buffer) + 1);
-      strcpy(node_buffer->row, string_buffer);
-    } else {
-      CsvParserNode *tmp_node = create_node();
-      tmp_node->row = malloc(strlen(string_buffer) + 1);
-      strcpy(tmp_node->row, string_buffer);
-      node_buffer->next = tmp_node;
-      node_buffer = tmp_node;
-    }
+    if (*height == 0) *width = count_delimited_values(string_buffer, ',');
+
+    CsvParserNode *tmp_node = *height == 0 ? head : create_node();
+    tmp_node->row = malloc(strlen(string_buffer) + 1);
+    strcpy(tmp_node->row, string_buffer);
+    node_buffer->next = tmp_node;
+    node_buffer = tmp_node;
+
     *height += 1;
   }
 
