@@ -4,6 +4,7 @@
 
 #include "cli_renderer.h"
 #include "csv_parser.h"
+#include "random_board_generator.h"
 #include "ticker.h"
 
 int main(int argc, char *argv[]) {
@@ -20,7 +21,7 @@ int main(int argc, char *argv[]) {
   int width = 0;
   CsvParserNode *node;
 
-  while((flag = getopt(argc, argv, "f:r:csm:")) != EOF) {
+  while((flag = getopt(argc, argv, "f:r:csm:h:w:")) != EOF) {
     switch(flag) {
       case 'f':
         seed_file_name = optarg;
@@ -37,6 +38,12 @@ int main(int argc, char *argv[]) {
       case 'm':
         max_generation = atoi(optarg);
         break;
+      case 'h':
+        height = atoi(optarg);
+        break;
+      case 'w':
+        width = atoi(optarg);
+        break;
       default:
         fprintf(stderr, "%s\n", "That's not a valid argument");
     }
@@ -44,12 +51,14 @@ int main(int argc, char *argv[]) {
 
   if (seed_file_name) {
     node = create_node();
+    height = 0;
+    width = 0;
     parse_seed_csv_rows(seed_file_name, node, &height, &width);
   }
 
   int board[height][width];
 
-  if (seed_file_name) populate_matrix_from_node(node, height, width, board);
+  seed_file_name ? populate_matrix_from_node(node, height, width, board) : randomize(height, width, board);
 
   while (1) {
     if (max_generation && generation >= max_generation + 1) break;
@@ -69,17 +78,6 @@ int main(int argc, char *argv[]) {
   argc -= optind;
   argv -= optind;
 
-  // TODO: Populate a randmized board
-  // int board[6][6] = {
-  //   {0, 0, 0, 1, 0, 0 },
-  //   {0, 0, 0, 2, 0, 0 },
-  //   {0, 0, 0, 3, 0, 0 },
-  //   {0, 0, 0, 4, 0, 0 },
-  //   {0, 0, 0, 5, 0, 0 },
-  //   {0, 0, 0, 6, 0, 0 }
-  // };
-  //
-  // cli_render(6, 6, board);
   printf("\n");
   printf("\n");
 }
