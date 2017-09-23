@@ -56,7 +56,7 @@ void freeList(CsvParserNode *head) {
 
   while(head != NULL) {
     tmp = head;
-    head = head -> next;
+    head = head->next;
     free(tmp->row);
     free(tmp);
   }
@@ -78,6 +78,5 @@ void populateMatrixFromNode(CsvParserNode *node, int width, int height, int matr
     tmpNode = tmpNode->next;
   }
 
-  // TODO: Cleanup strings and nodes
   freeList(node);
 }

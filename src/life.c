@@ -41,11 +41,11 @@ int main(int argc, char *argv[]) {
 
   if (seedFileName) {
     // TODO: Move these outside this block scope so that we can generalize the generation logic.
-    CsvParserNode node;
+    CsvParserNode *node = createNode();
     int height = 0;
     int width = 0;
 
-    parseSeedCsvRows(seedFileName, &node, &height, &width);
+    parseSeedCsvRows(seedFileName, node, &height, &width);
 
     // TODO: Not working with non-square boards
     if (height != width) {
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     }
 
     int board[width][height];
-    populateMatrixFromNode(&node, width, height, board);
+    populateMatrixFromNode(node, width, height, board);
 
     while (1) {
       if (maxGeneration && generation >= maxGeneration + 1) break;
