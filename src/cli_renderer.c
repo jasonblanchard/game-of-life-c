@@ -1,13 +1,17 @@
 #include <stdio.h>
 
-void cli_render_board(int height, int width, int board[][width]) {
+void cli_render_board(int height, int width, int board[][width], int graphicsMode) {
   int x;
   int y;
 
   for (x = 0; x < height; x++) {
     if (x > 0) printf("\n");
     for (y = 0; y < width; y++) {
-      printf(" %i ", board[x][y]);
+      if (graphicsMode) {
+        board[x][y] > 0 ? printf("+") : printf("  ");
+      } else {
+        printf(" %i ", board[x][y]);
+      }
     }
   }
 }

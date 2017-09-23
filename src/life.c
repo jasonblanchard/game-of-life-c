@@ -19,9 +19,10 @@ int main(int argc, char *argv[]) {
   int max_generation = 0;
   int height = 0;
   int width = 0;
+  int graphicsMode = 0;
   CsvParserNode *node;
 
-  while((flag = getopt(argc, argv, "f:r:csm:h:w:")) != EOF) {
+  while((flag = getopt(argc, argv, "f:r:csm:h:w:g")) != EOF) {
     switch(flag) {
       case 'f':
         seed_file_name = optarg;
@@ -44,6 +45,8 @@ int main(int argc, char *argv[]) {
       case 'w':
         width = atoi(optarg);
         break;
+      case 'g':
+        graphicsMode = 1;
       default:
         fprintf(stderr, "%s\n", "That's not a valid argument");
     }
@@ -63,7 +66,7 @@ int main(int argc, char *argv[]) {
   while (1) {
     if (max_generation && generation >= max_generation + 1) break;
     should_clear ? system("clear") : printf("\n");
-    cli_render_board(height, width, board);
+    cli_render_board(height, width, board, graphicsMode);
     if (show_stats) {
       printf("\n");
       printf("\n");
