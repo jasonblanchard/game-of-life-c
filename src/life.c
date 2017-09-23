@@ -13,10 +13,12 @@ int main(int argc, char *argv[]) {
   char *seedFileName;
   int rate = 1000 * 1000;
   int shouldClear = 0;
+  int generation = 0;
+  int showStats = 0;
 
-  while((flag = getopt(argc, argv, "s:r:c")) != EOF) {
+  while((flag = getopt(argc, argv, "f:r:cs")) != EOF) {
     switch(flag) {
-      case 's':
+      case 'f':
         seedFileName = optarg;
         break;
       case 'r':
@@ -24,6 +26,10 @@ int main(int argc, char *argv[]) {
         break;
       case 'c':
         shouldClear = 1;
+        break;
+      case 's':
+        showStats = 1;
+        break;
       default:
         fprintf(stderr, "%s\n", "That's not a valid argument");
     }
@@ -47,9 +53,15 @@ int main(int argc, char *argv[]) {
 
     while (1) {
       shouldClear ? system("clear") : printf("\n");
-      cli_render(width, height, board);
+      cliRender(width, height, board);
+      if (showStats) {
+        printf("\n");
+        printf("\n");
+        cliRenderStats(generation, width, height, board);
+      }
       tick(width, height, board);
       printf("\n");
+      generation++;
       usleep(rate);
     }
   }
