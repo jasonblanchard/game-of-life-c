@@ -41,9 +41,10 @@ CsvParserNode * parse_seed_csv_rows(char *fileName, int *height, int *width) {
   while((getline(&string_buffer, &buffer_length, file_pointer)) != -1) {
     if (*height == 0) *width = count_delimited_values(string_buffer, ',');
 
-    CsvParserNode *tmp_node = *height == 0 ? head : create_node();
+    CsvParserNode *tmp_node = *height == 0 ? node_buffer : create_node();
     tmp_node->row = malloc(strlen(string_buffer) + 1);
     strcpy(tmp_node->row, string_buffer);
+
     node_buffer->next = tmp_node;
     node_buffer = tmp_node;
 
@@ -70,16 +71,16 @@ void populate_matrix_from_node(CsvParserNode *head, int height, int width, int m
   int i;
   int j;
   char *token, *str;
-  CsvParserNode *tmp_node = head;
+  CsvParserNode *node_buffer = head;
 
   for (i = 0; i < height; i++) {
-    str = tmp_node->row;
+    str = node_buffer->row;
 
     for (j = 0; j < width; j++) {
       token = strsep(&str, ",");
       matrix[i][j] = atoi(token);
     }
-    tmp_node = tmp_node->next;
+    node_buffer = node_buffer->next;
   }
 
   free_list(head);
